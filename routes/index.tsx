@@ -55,7 +55,7 @@ export default function Home({ data }: PageProps<Data>) {
 
   return (
     <div class={tw(globalStyles)}>
-      <Title title={first || second ? `Duplex: ${first} &rarr; ${second}` : "Duplex"} />
+      <Title title={first || second ? `Duplex: ${first} - ${second}` : "Duplex"} />
       <div class={tw`shadow-lg p-8 bg-yellow-100 flex justify-center flex-col items-center gap-8 h-screen mx-auto max-w-screen-md`}>
         <div class={tw`flex flex-col items-center`}>
           <img
