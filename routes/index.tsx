@@ -1,8 +1,9 @@
 /** @jsx h */
 import { FunctionComponent, h } from "preact";
-import { tw } from "@twind";
-import { css } from 'twind/css'
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { css } from 'twind/css'
+import { tw } from "@twind";
+import Title from "../islands/Title.tsx";
 
 
 interface Data {
@@ -51,8 +52,10 @@ const WordsList: FunctionComponent<{chain: string[]}> = ({ chain }) => <ul class
 export default function Home({ data }: PageProps<Data>) {
   const { chain, first, second } = data;
 
+
   return (
     <div class={tw(globalStyles)}>
+      <Title title={first || second ? `Duplex: ${first} &rarr; ${second}` : "Duplex"} />
       <div class={tw`shadow-lg p-8 bg-yellow-100 flex justify-center flex-col items-center gap-8 h-screen mx-auto max-w-screen-md`}>
         <div class={tw`flex flex-col items-center`}>
           <img
