@@ -1,13 +1,12 @@
 /** @jsx h */
-import { h } from "preact";
+import { FunctionComponent, h } from "preact";
 import { tw } from "@twind";
 import { css } from 'twind/css'
 import { Handlers, PageProps } from "$fresh/server.ts";
 
-const NAMES = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank"];
 
 interface Data {
-  results: string[];
+  chain: string[];
   first: string;
   second: string;
 }
@@ -18,13 +17,8 @@ export const handler: Handlers<Data> = {
     const firstWord = url.searchParams.get("first") || "";
     const secondWord = url.searchParams.get("second") || "";
 
-    const results = NAMES.filter((name) => {
-      if (!firstWord) return name.includes(secondWord);
-      if (!secondWord) return name.includes(firstWord);
-
-      return false;
-    });
-    return ctx.render({ results, first: firstWord, second: secondWord });
+    const chain = ["волк", "ворк", "ворд", "лорд", "лора", "нора"]
+    return ctx.render({ chain: firstWord || secondWord ? chain : [],  first: firstWord, second: secondWord });
   },
 };
 
@@ -42,9 +36,20 @@ const globalStyles = css({
   },
 })
 
+const WordsList: FunctionComponent<{chain: string[]}> = ({ chain }) => <ul class={tw`flex gap-2`}>{
+  chain.map((word, index) => (
+    <li class={tw`flex gap-2`} key={word}>
+      <div class={tw`bg-yellow-500 text-white rounded-lg px-4`} >{word}</div>
+        {index !== chain.length - 1 && <p>
+          &rarr;
+        </p>}
+    </li>
+  ))
+}</ul>
+
 
 export default function Home({ data }: PageProps<Data>) {
-  const { results, first, second } = data;
+  const { chain, first, second } = data;
 
   return (
     <div class={tw(globalStyles)}>
@@ -63,11 +68,11 @@ export default function Home({ data }: PageProps<Data>) {
         <form class={tw`flex pb-8 flex-col gap-4 items-center`} action="">
           <div class={tw`flex flex-col`}>
             <label htmlFor="">First word</label>
-            <input type="text" name="first" value={first} />
+            <input placeholder="Enter something" class={tw`py-2 px-4 rounded-lg text-stale-500`} type="text" name="first" value={first} />
           </div>
           <div class={tw`flex flex-col`}>
             <label htmlFor="">Second word</label>
-            <input type="text" name="second" value={second} />
+            <input placeholder="Enter something" class={tw`py-2 px-4 rounded-lg text-stale-500`} type="text" name="second" value={second} />
           </div>
           <button
             type="submit"
@@ -75,10 +80,8 @@ export default function Home({ data }: PageProps<Data>) {
           >
             generate chain
           </button>
-          <ul>
-            {results.map((name) => <li key={name}>{name}</li>)}
-          </ul>
         </form>
+        <WordsList chain={chain} />
       </div>
     </div>
   );
