@@ -14,13 +14,12 @@ interface Data {
 }
 
 export const handler: Handlers<Data> = {
-  async GET(req, ctx) {
+  GET(req, ctx) {
     const url = new URL(req.url);
     const firstWord = url.searchParams.get("first") || "";
     const secondWord = url.searchParams.get("second") || "";
 
     const chain = ["волк", "ворк", "ворд", "лорд", "лора", "нора"]
-    // await new Promise((resolve) => setTimeout(resolve, 10_000))
     return ctx.render({ chain: firstWord || secondWord ? chain : [],  first: firstWord, second: secondWord });
   },
 };
