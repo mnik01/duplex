@@ -4,6 +4,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { css } from 'twind/css'
 import { tw } from "@twind";
 import Title from "../islands/Title.tsx";
+import Button from "../islands/Button.tsx";
 
 
 interface Data {
@@ -13,12 +14,13 @@ interface Data {
 }
 
 export const handler: Handlers<Data> = {
-  GET(req, ctx) {
+  async GET(req, ctx) {
     const url = new URL(req.url);
     const firstWord = url.searchParams.get("first") || "";
     const secondWord = url.searchParams.get("second") || "";
 
     const chain = ["волк", "ворк", "ворд", "лорд", "лора", "нора"]
+    await new Promise((resolve) => setTimeout(resolve, 10_000))
     return ctx.render({ chain: firstWord || secondWord ? chain : [],  first: firstWord, second: secondWord });
   },
 };
@@ -70,19 +72,14 @@ export default function Home({ data }: PageProps<Data>) {
         </div>
         <form class={tw`flex pb-8 flex-col gap-4 items-center`} action="">
           <div class={tw`flex flex-col`}>
-            <label htmlFor="">First word</label>
+            <label>First word</label>
             <input placeholder="Enter something" class={tw`py-2 px-4 rounded-lg text-stale-500`} type="text" name="first" value={first} />
           </div>
           <div class={tw`flex flex-col`}>
-            <label htmlFor="">Second word</label>
+            <label>Second word</label>
             <input placeholder="Enter something" class={tw`py-2 px-4 rounded-lg text-stale-500`} type="text" name="second" value={second} />
           </div>
-          <button
-            type="submit"
-            class={tw`px-2 w-full py-1 rounded-md hover:bg-purple-300 uppercase bg-purple-200`}
-          >
-            generate chain
-          </button>
+          <Button />
         </form>
         <WordsList chain={chain} />
       </div>
