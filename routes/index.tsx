@@ -69,7 +69,7 @@ export default function Home({ data }: PageProps<Data>) {
             Duplex
           </h1>
         </div>
-        <form class={tw`flex pb-8 flex-col gap-4 items-center`} action="">
+        <form id="duplex-form" class={tw`flex pb-8 flex-col gap-4 items-center`} action="">
           <div class={tw`flex flex-col`}>
             <label>First word</label>
             <input placeholder="Enter something" class={tw`py-2 px-4 rounded-lg text-stale-500`} type="text" name="first" value={first} />

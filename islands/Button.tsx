@@ -6,7 +6,9 @@ import { tw } from "@twind";
 const Button: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: Event) => {
+    e.preventDefault();
+    (document.getElementById('duplex-form') as HTMLFormElement).submit()
     setIsLoading(true)
   }
 
